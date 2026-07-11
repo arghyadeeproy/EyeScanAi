@@ -1,50 +1,133 @@
-# Welcome to your Expo app 👋
+# EyeScan AI 👁️
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A premium, production-quality React Native mobile application built with **Expo SDK 54** for real-time detection of eye diseases (Glaucoma & Diabetic Retinopathy) utilizing deep learning algorithms. 
 
-## Get started
+The application features a dark theme utilizing an **Amber/Yellow** accents system with custom glassmorphism cards, micro-animations, fully typed network structures, secure offline fallback layers, and structured clinical profile syncing.
 
-1. Install dependencies
+---
 
-   ```bash
-   npm install
-   ```
+## 🚀 Key Features
 
-2. Start the app
+*   **Premium HSL Dark Aesthetics**: Tailored black (`#0A0A0A`) & amber/yellow (`#F5C518` / `#FFD700`) color palette featuring subtle glow rings, depth-based card styling, and custom glass elements.
+*   **Segmented Multi-Neural Scanning**:
+    *   *Glaucoma Analyser*: Checks optic disc parameters, box coordinates, and outputs confidence statistics.
+    *   *Diabetic Retinopathy (DR) Analyser*: Assesses retina photographs for microaneurysms and exudate lesions.
+    *   *Combined Diagnostic Mode*: Executes both neural network predictions in parallel.
+*   **Fully-Typed Auth Engine**: Custom JWT interceptors handling Bearer injection, background token refreshing with concurrent request queues, and automated expiration routing.
+*   **Diagnostic Logs**: Displays list views with status indicators, swipable rows for item removal, category filters, and detail modals.
+*   **Clinical Profiles**: Medical profiling form for saving patient data (demographics, smokes, diabetes types, blood pressure) affecting model context.
+*   **Accessibility & UX**: Includes ARIA navigation labels, loading overlay states, custom animations, and a sticky offline banner indicator.
 
-   ```bash
-   npx expo start
-   ```
+---
 
-In the output, you'll find options to open the app in a
+## 🛠️ Technology Stack
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+| Core Concern | Library / Tool |
+|---|---|
+| Framework | **Expo SDK 54** (Managed Workflow) with **TypeScript** |
+| Navigation | React Navigation v7 (`@react-navigation/native` + `stack` + `bottom-tabs`) |
+| Network / HTTP | `axios` with global refresh interceptors |
+| Authentication | React Context + `expo-secure-store` |
+| Image Acquisition | `expo-image-picker` (Camera & Photo rolls) |
+| Form Binding | `react-hook-form` |
+| Motion / Animation | `react-native-reanimated` |
+| Typography | `expo-google-fonts` utilizing the **Inter** font family |
+| Connection Monitor | `@react-native-community/netinfo` |
+| Notification Toast | `react-native-toast-message` |
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+---
 
-## Get a fresh project
+## ⚙️ Configuration & Environment Setup
 
-When you're ready, run:
+The backend endpoint is driven dynamically by the environment. To alter it:
+
+1. Locate the `.env` file in the project root.
+2. Edit the API endpoint value `EXPO_PUBLIC_API_BASE_URL`:
 
 ```bash
-npm run reset-project
+# .env file
+
+# Android Emulator (points to localhost on hosting machine)
+EXPO_PUBLIC_API_BASE_URL=http://10.0.2.2:8000
+
+# iOS Simulator
+# EXPO_PUBLIC_API_BASE_URL=http://127.0.0.1:8000
+
+# Physical Device Testing (use your hosting machine's local LAN IP)
+# EXPO_PUBLIC_API_BASE_URL=http://192.168.1.45:8000
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+---
 
-## Learn more
+## 💻 Running the Application
 
-To learn more about developing your project with Expo, look at the following resources:
+Follow these steps to launch the app:
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+### 1. Install Dependencies
+```bash
+npm install
+```
 
-## Join the community
+### 2. Launch the Development Server
+```bash
+npx expo start
+```
 
-Join our community of developers creating universal apps.
+### 3. Open on Target Platform
+*   Press **`a`** to open on an Android emulator or connected device.
+*   Press **`i`** to open on an iOS simulator.
+*   Scan the QR code printed in the terminal using the **Expo Go** application on your physical device.
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+---
+
+## 📁 Source Code Directory Structure
+
+```text
+src/
+├── api/
+│   ├── axiosInstance.ts       # Axios wrapper with auto refresh interceptors
+│   ├── authApi.ts             # Auth REST endpoints
+│   ├── patientApi.ts          # Medical profile endpoints
+│   ├── predictApi.ts          # ML multipart image upload calls
+│   └── recordsApi.ts          # History CRUD operations
+├── components/
+│   ├── ui/
+│   │   ├── PrimaryButton.tsx  # Spring-animated click action buttons
+│   │   ├── GlassCard.tsx      # Transparent amber-glowing borders
+│   │   ├── RiskBadge.tsx      # Dynamic colored status pills
+│   │   ├── ConfidenceRing.tsx # Dynamic circular progress indicator
+│   │   └── LoadingOverlay.tsx # Pulse ring full screen overlay
+│   ├── forms/
+│   │   ├── InputField.tsx     # Focused styling validation entries
+│   │   └── ToggleSwitch.tsx   # Custom spring toggle switches
+│   └── records/
+│       ├── RecordCard.tsx     # Swipable logs listings
+│       └── RecordDetail.tsx   # Results segment mapping
+├── config/
+│   └── api.ts                 # BaseURL configuration export
+├── context/
+│   └── AuthContext.tsx        # Secure session persistent store
+├── hooks/
+│   ├── useAuth.ts             # Global auth export hook
+│   └── usePatientProfile.ts   # Patient status synchronizer
+├── navigation/
+│   ├── RootNavigator.tsx      # Authentication state router
+│   ├── AuthStack.tsx          # Login, SignUp, Splash route stack
+│   └── AppTabs.tsx            # Main tab navigation layout
+├── screens/
+│   ├── SplashScreen.tsx       # Animated eye intro screen
+│   ├── LoginScreen.tsx        # Auth login card
+│   ├── SignUpScreen.tsx       # New account creator card
+│   ├── HomeScreen.tsx         # User welcome dashboard metrics
+│   ├── ScanScreen.tsx         # Diagnostic camera controller
+│   ├── RecordsScreen.tsx      # Swipable patient records logs
+│   ├── RecordDetailScreen.tsx # Multi-algorithm diagnostic results
+│   ├── ProfileScreen.tsx      # Patient health summaries
+│   └── EditProfileScreen.tsx  # Patient medical questionnaire
+├── theme/
+│   ├── colors.ts              # Styled palette configuration tokens
+│   └── typography.ts          # Inter font weights & sizes configurations
+└── utils/
+    ├── secureStorage.ts       # Expo keychain save helpers
+    └── formatters.ts          # Risk colors & date decorators
+```
